@@ -1,7 +1,22 @@
-version: "3"
 services:
   proxy:
     build: .
     ports:
       - "8080:8080"
       - "8000:8000"
+    depends_on:
+      - mongodb
+    networks:
+      - web-safety
+
+  mongodb:
+    image: mongo:4.4
+    container_name: mongodb
+    networks:
+      - web-safety
+    ports:
+      - "27017:27017"
+
+networks:
+  web-safety:
+    driver: bridge
