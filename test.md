@@ -56,3 +56,40 @@ db.requestlogs.find({}, {
   "timestamp": 1
 }).sort({ _id: -1 }).limit(10).pretty()
 ```
+
+# 4. Сканер уязвимости (Вариант 5)
+
+Внимание, сейчас проверка идет по короткому словарю short-dicc.txt, состоящему из 8 значений. Просто потому что так быстрее. Для проверки полного словаря dicc.txt необходимо в api.js заменить строчку
+
+```js
+const dictPath = path.join(__dirname, "dicts", "short-dicc.txt");
+```
+
+на
+
+```js
+const dictPath = path.join(__dirname, "dicts", "dicc.txt");
+```
+
+Время проверки при этом возрастет до ~5 минут, о том что проверка действительно идёт будут говорить логи в докер-контейнере. При этом, наиболее вероятный ответ - Too Many Requests для всех запросов.
+
+### 1. Посмотреть id запросов в Монго
+
+```bash
+mongosh
+use proxy_logs
+
+db.requestlogs.find({}, {
+  _id: 1,
+  "request.method": 1,
+  "request.headers.host": 1,
+  "request.path": 1,
+  "timestamp": 1
+}).sort({ _id: -1 }).limit(10).pretty()
+```
+
+### 2. Посмотреть Сканировать запрос по id
+
+```bash
+curl -X POST http://localhost:8000/scan/6805588e57df8e98eddedf34
+```

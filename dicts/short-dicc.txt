@@ -1,0 +1,8 @@
+admin
+config
+robots.txt
+index.html
+backup
+test
+.git
+.htaccess
