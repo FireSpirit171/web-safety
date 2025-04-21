@@ -88,7 +88,7 @@ db.requestlogs.find({}, {
 }).sort({ _id: -1 }).limit(10).pretty()
 ```
 
-### 2. Посмотреть Сканировать запрос по id
+### 2. Сканировать запрос по id
 
 ```bash
 curl -X POST http://localhost:8000/scan/6805588e57df8e98eddedf34
